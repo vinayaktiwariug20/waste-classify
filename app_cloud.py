@@ -9,7 +9,7 @@ st.set_page_config(page_title="WasteVision AI", page_icon="♻️")
 @st.cache_resource
 def load_waste_model():
     """Load the pre-trained EfficientNetB0 model[cite: 16]."""
-    return tf.keras.models.load_model('models/waste_model.h5')
+    return tf.keras.models.load_model('EfficientNetB0_best.keras')
 
 def process_and_predict(image, model):
     """Pre-process image and return prediction[cite: 9]."""

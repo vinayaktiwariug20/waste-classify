@@ -32,6 +32,43 @@
         code { background: var(--light); padding: 0.2rem 0.4rem; border-radius: 3px; font-family: monospace; }
         pre { background: var(--light); padding: 1rem; overflow-x: auto; border-radius: 6px; }
         hr { border: 0; border-top: 1px solid #eaecef; margin: 2rem 0; }
+        
+        .metrics-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        .metric-box {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(40, 167, 69, 0.2);
+            transition: transform 0.2s;
+        }
+        .metric-box:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(40, 167, 69, 0.3);
+        }
+        .metric-label {
+            font-size: 0.9rem;
+            opacity: 0.95;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0;
+        }
+        .metric-description {
+            font-size: 0.85rem;
+            opacity: 0.9;
+            margin-top: 0.5rem;
+        }
     </style>
 </head>
 <body>
@@ -56,11 +93,21 @@
     <p>This project began as a comparative study of deep learning backbones for an assignment. I evaluated four distinct CNN architectures against the <strong>RealWaste dataset</strong> and transitioned the best-performing model into a functional, interactive web application.</p>
 
     <h3>📊 Performance Metrics</h3>
-    <ul>
-        <li><strong>F1-Score:</strong> 0.861</li>
-        <li><strong>AUC:</strong> 0.988 (Superior class separation)</li>
-        <li><strong>Backbone:</strong> EfficientNet-B0</li>
-    </ul>
+    <div class="metrics-container">
+        <div class="metric-box">
+            <div class="metric-label">F1-Score</div>
+            <div class="metric-value">0.861</div>
+        </div>
+        <div class="metric-box">
+            <div class="metric-label">AUC</div>
+            <div class="metric-value">0.988</div>
+            <div class="metric-description">Superior class separation</div>
+        </div>
+        <div class="metric-box">
+            <div class="metric-label">Backbone</div>
+            <div class="metric-value" style="font-size: 1.3rem;">EfficientNet-B0</div>
+        </div>
+    </div>
 
     <h2>🚀 The "Colab to Production" Journey</h2>
     <p>Most machine learning models begin and end in a notebook. My goal was to ensure this model was accessible and testable.</p>

@@ -12,14 +12,19 @@ def load_waste_model():
     return tf.keras.models.load_model('EfficientNetB0_best.keras')
 
 def process_and_predict(image, model):
-    """Pre-process image and return prediction."""
+    """Pre-process image and return top 3 predictions with confidence levels."""
     img = image.resize((224, 224))
     img_array = np.array(img) / 255.0
     img_array = np.expand_dims(img_array, axis=0)
     
-    preds = model.predict(img_array)
+    preds = model.predict(img_array)[0]
     classes = ['Cardboard', 'Glass', 'Metal', 'Paper', 'Plastic', 'Trash', 'Fruit', 'Vegetable', 'Textile']
-    return classes[np.argmax(preds)], np.max(preds)
+    
+    # Get top 3 predictions
+    top_3_idx = np.argsort(preds)[-3:][::-1]
+    top_3_results = [(classes[idx], preds[idx]) for idx in top_3_idx]
+    
+    return top_3_results
 
 # UI Elements
 st.title("♻️ Waste Classification")

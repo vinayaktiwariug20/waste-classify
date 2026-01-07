@@ -1,109 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Waste Classification Case Study | Vinayak Tiwari</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    :root {
-      --primary: #2e7d32;
-      --bg: #f4f7f6;
-      --text: #333;
-    }
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-      margin: 0;
-      padding: 20px;
-    }
-    .container {
-      max-width: 900px;
-      margin: 40px auto;
-      background: white;
-      padding: 40px;
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-    }
-    h1 { color: #1b5e20; margin-top: 0; }
-    .metrics {
-      display: flex;
-      gap: 20px;
-      margin: 20px 0;
-    }
-    .metric-card {
-      background: #e8f5e9;
-      padding: 15px;
-      border-radius: 8px;
-      flex: 1;
-      text-align: center;
-      border: 1px solid #c8e6c9;
-    }
-    .metric-card strong { font-size: 1.2em; display: block; color: var(--primary); }
-    .btn-group { margin: 30px 0; display: flex; gap: 15px; flex-wrap: wrap; }
-    .btn {
-      padding: 12px 24px;
-      border-radius: 6px;
-      text-decoration: none;
-      font-weight: bold;
-      transition: transform 0.2s;
-    }
-    .btn:hover { transform: translateY(-2px); }
-    .btn-primary { background: var(--primary); color: white; }
-    .btn-secondary { background: #333; color: white; }
-    .video-container {
-      position: relative;
-      padding-top: 56.25%;
-      margin-top: 30px;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    }
-    .video-container iframe { position: absolute; inset: 0; width: 100%; height: 100%; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Waste Classification | Case Study</title>
+    <style>
+        :root { --green: #28a745; --dark: #24292e; --light: #f6f8fa; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            line-height: 1.6; color: var(--dark); max-width: 800px; margin: 0 auto; padding: 2rem;
+            background-color: #fff;
+        }
+        header { border-bottom: 1px solid #eaecef; padding-bottom: 1rem; margin-bottom: 2rem; }
+        h1, h2, h3 { color: var(--dark); }
+        .badge { 
+            background: var(--light); border: 1px solid #d1d5da; padding: 5px 12px; 
+            border-radius: 20px; font-size: 0.9rem; margin-right: 8px; display: inline-block;
+        }
+        .btn-group { margin: 2rem 0; }
+        .btn { 
+            padding: 10px 20px; border-radius: 6px; text-decoration: none; 
+            font-weight: 600; margin-right: 10px; display: inline-block;
+        }
+        .btn-primary { background: var(--green); color: white; }
+        .btn-outline { border: 1px solid #d1d5da; color: var(--dark); }
+        .video-wrapper { 
+            position: relative; padding-bottom: 56.25%; height: 0; margin: 2rem 0;
+            background: #000; border-radius: 8px; overflow: hidden;
+        }
+        .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+        code { background: var(--light); padding: 0.2rem 0.4rem; border-radius: 3px; font-family: monospace; }
+        pre { background: var(--light); padding: 1rem; overflow-x: auto; border-radius: 6px; }
+        hr { border: 0; border-top: 1px solid #eaecef; margin: 2rem 0; }
+    </style>
 </head>
 <body>
 
-<div class="container">
-  <h1>♻️ Waste Classification Project</h1>
-  <p><strong>Role:</strong> Lead Developer</p>
-  <p>
-  <strong>Frameworks:</strong> TensorFlow/Keras, NumPy, Matplotlib | 
-  <strong>Deployment:</strong> Streamlit | 
-  <strong>Architecture:</strong> EfficientNet-B0
-  </p>
-  
-  <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
-
-  <p>This project automates the sorting of waste using deep learning. I evaluated four distinct CNN architectures against the <strong>RealWaste dataset</strong> to determine the most effective backbone for real-world classification.</p>
-
-  <div class="metrics">
-    <div class="metric-card">
-      <strong>0.861</strong> F1-Score
+<header>
+    <h1>♻️ WasteVision AI</h1>
+    <p><strong>Case Study:</strong> From Google Colab to Real-Time Production</p>
+    <div style="margin-top: 10px;">
+        <span class="badge">EfficientNet-B0</span>
+        <span class="badge">TensorFlow</span>
+        <span class="badge">Streamlit</span>
     </div>
-    <div class="metric-card">
-      <strong>0.988</strong> AUC Score
+</header>
+
+<section id="links" class="btn-group">
+    <a href="https://waste-classify-vt.streamlit.app/" class="btn btn-primary" target="_blank">Launch Live Demo</a>
+    <a href="https://github.com/vinayaktiwariug20/waste-classify" class="btn btn-outline" target="_blank">GitHub Source</a>
+</section>
+
+<main>
+    <h2>📌 Project Overview</h2>
+    <p>This project began as a comparative study of deep learning backbones for a computer vision assignment. I evaluated four distinct CNN architectures against the <strong>RealWaste dataset</strong> and transitioned the best-performing model into a functional, interactive web application.</p>
+
+    <h3>📊 Performance Metrics</h3>
+    <ul>
+        <li><strong>F1-Score:</strong> 0.861</li>
+        <li><strong>AUC:</strong> 0.988 (Superior class separation)</li>
+        <li><strong>Backbone:</strong> EfficientNet-B0 (Selected for best accuracy-to-size ratio)</li>
+    </ul>
+
+    <h2>🚀 The "Colab to Production" Journey</h2>
+    <p>Most machine learning models begin and end in a notebook. My goal was to ensure this model was accessible and testable.</p>
+    <ul>
+        <li><strong>Model Selection:</strong> Evaluated four CNN backbones; EfficientNet strictly outperformed candidates across all metrics.</li>
+        <li><strong>Real-World Testing:</strong> The live demo allows users to bypass pre-cleaned datasets and test against "in-the-wild" images.</li>
+    </ul>
+
+    <h3>🎥 Video Walkthrough</h3>
+    <div class="video-wrapper">
+        <iframe src="https://www.youtube.com/embed/hJXq16BBI3c" frameborder="0" allowfullscreen></iframe>
     </div>
-    <div class="metric-card">
-      <strong>EfficientNet B0</strong> Architecture
-    </div>
-  </div>
 
-  <div class="btn-group">
-    <a href="https://waste-classify-vt.streamlit.app/" class="btn btn-primary" target="_blank">🚀 Launch Live Demo</a>
-    <a href="https://github.com/vinayaktiwariug20/waste-classify" class="btn btn-secondary" target="_blank">📂 View Source Code</a>
-  </div>
+    <hr>
 
-  <h3>Project Walkthrough</h3>
-  <div class="video-container">
-    <iframe src="https://www.youtube.com/embed/hJXq16BBI3c" title="Project Demo" frameborder="0" allowfullscreen></iframe>
-  </div>
+    <h2>💻 Local Setup</h2>
+    <p>To run this project on your machine:</p>
+    <pre><code>git clone https://github.com/vinayaktiwariug20/waste-classify.git
+cd waste-classify
+pip install -r requirements.txt
+streamlit run app.py</code></pre>
+</main>
 
-  <div style="margin-top: 40px;">
-    <a href="https://vinayaktiwariug20.github.io/" style="color: #666; text-decoration: none;">← Back to Portfolio</a>
-  </div>
-</div>
+<footer>
+    <p><a href="https://vinayaktiwariug20.github.io/" style="color: #666;">← Back to Portfolio</a></p>
+</footer>
 
 </body>
 </html>

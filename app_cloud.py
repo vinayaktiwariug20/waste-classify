@@ -1,44 +1,43 @@
-# app_cloud.py
 import streamlit as st
 import tensorflow as tf
 from PIL import Image
 import numpy as np
 
-# Page Config
+# Page configuration
 st.set_page_config(page_title="WasteVision AI", page_icon="♻️")
 
 @st.cache_resource
-def load_model():
-    # Replace with your actual model file path
-    return tf.keras.models.load_model('models/waste_classifier.h5')
+def load_waste_model():
+    """Load the pre-trained EfficientNetB0 model[cite: 16]."""
+    return tf.keras.models.load_model('models/waste_model.h5')
 
-def predict(image, model):
-    # Standard preprocessing for EfficientNet
+def process_and_predict(image, model):
+    """Pre-process image and return prediction[cite: 9]."""
     img = image.resize((224, 224))
     img_array = np.array(img) / 255.0
     img_array = np.expand_dims(img_array, axis=0)
     
-    predictions = model.predict(img_array)
-    classes = ['Cardboard', 'Glass', 'Metal', 'Paper', 'Plastic', 'Trash'] # Example classes
-    return classes[np.argmax(predictions)], np.max(predictions)
+    preds = model.predict(img_array)
+    classes = ['Cardboard', 'Glass', 'Metal', 'Paper', 'Plastic', 'Trash', 'Fruit', 'Vegetable', 'Textile']
+    return classes[np.argmax(preds)], np.max(preds)
 
-# UI Layout
-st.title("♻️ Waste Classification AI")
-st.write("Upload a photo of waste to see how the EfficientNet model classifies it.")
+# UI Elements
+st.title("♻️ Waste Classification")
+st.write("Upload an image to classify it using the EfficientNetB0 backbone.")
 
-uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
+file = st.file_uploader("Upload Waste Image", type=["jpg", "png", "jpeg"])
 
-if uploaded_file:
-    image = Image.open(uploaded_file)
-    st.image(image, caption="Uploaded Image", use_container_width=True)
+if file:
+    img = Image.open(file)
+    st.image(img, use_container_width=True)
     
-    with st.spinner('Analyzing...'):
-        model = load_model()
-        label, confidence = predict(image, model)
+    with st.spinner('Analyzing features...'):
+        model = load_waste_model()
+        label, confidence = process_and_predict(img, model)
         
-    st.success(f"**Prediction:** {label}")
-    st.info(f"**Confidence:** {confidence:.2%}")
+    st.success(f"**Classification:** {label}")
+    st.progress(float(confidence))
+    st.write(f"Confidence: {confidence:.2%}")
 
-# Simple Footer
 st.divider()
-st.caption("Developed by Vinayak Tiwari | EfficientNet-B0 Backbone")
+st.caption("Built with TensorFlow & Streamlit | EfficientNet-B0 [cite: 16]")

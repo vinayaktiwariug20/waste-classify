@@ -25,8 +25,8 @@ The model was trained on the RealWaste dataset and achieved the following result
 ## 💻 How to Run This Locally
 
 1. Clone the repository:
-git clone https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git
-cd YOUR_REPO_NAME
+git clone https://github.com/vinayaktiwariug20/waste-classify.git
+cd waste-classify
 
 2. Install dependencies:
 pip install -r requirements.txt

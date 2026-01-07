@@ -30,6 +30,16 @@ def process_and_predict(image, model):
 st.title("♻️ Waste Classification")
 st.write("Upload an image to classify it using the EfficientNetB0 backbone.")
 
+# Show the 9 waste categories
+st.subheader("📋 Waste Categories")
+categories = ['Cardboard', 'Glass', 'Metal', 'Paper', 'Plastic', 'Trash', 'Fruit', 'Vegetable', 'Textile']
+cols = st.columns(3)
+for idx, category in enumerate(categories):
+    with cols[idx % 3]:
+        st.write(f"• {category}")
+
+st.divider()
+
 file = st.file_uploader("Upload Waste Image", type=["jpg", "png", "jpeg"])
 
 if file:
@@ -38,11 +48,17 @@ if file:
     
     with st.spinner('Analyzing features...'):
         model = load_waste_model()
-        label, confidence = process_and_predict(img, model)
+        top_3_results = process_and_predict(img, model)
         
-    st.success(f"Classification: {label}")
-    st.progress(float(confidence))
-    st.write(f"Confidence: {confidence:.2%}")
+    st.success(f"**Top Classification: {top_3_results[0][0]}**")
+    
+    st.subheader("🎯 Top 3 Predictions")
+    for rank, (label, confidence) in enumerate(top_3_results, 1):
+        st.write(f"**{rank}. {label}**")
+        st.progress(float(confidence))
+        st.write(f"Confidence: {confidence:.2%}")
+        if rank < 3:
+            st.write("")  # Add spacing between predictions
 
 st.divider()
 st.caption("Built with TensorFlow & Streamlit | EfficientNet-B0")

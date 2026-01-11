@@ -29,7 +29,7 @@ def process_and_predict(image, model):
     top_n_idx = np.argsort(preds)[-top_n:][::-1]
     top_n_results = [(classes[idx], preds[idx]) for idx in top_n_idx]
     
-    return top_n_results
+    return top_n_results, preds, classes
 
 # UI Elements
 st.title("♻️ WasteVision AI")
@@ -58,7 +58,7 @@ if file:
     
     with st.spinner('Analyzing features...'):
         model = load_waste_model()
-        top_3_results = process_and_predict(img, model)
+        top_3_results, preds, classes = process_and_predict(img, model)
         
     st.success(f"**Top Classification: {top_3_results[0][0]}**")
     
@@ -69,6 +69,15 @@ if file:
         st.write(f"Confidence: {confidence:.2%}")
         if rank < 3:
             st.write("")  # Add spacing between predictions
+
+    st.divider()
+    st.write("🔍 DEBUG - Raw Model Output:")
+    st.write(f"Number of classes: {len(preds)}")
+    st.write(f"Highest confidence index: {np.argmax(preds)}")
+    st.write(f"Class at that index: {classes[np.argmax(preds)]}")
+    st.write("All predictions:")
+    for idx, (class_name, conf) in enumerate(zip(classes, preds)):
+        st.write(f"  [{idx}] {class_name}: {conf:.4f}")
 
 st.divider()
 st.caption("Built with TensorFlow & Streamlit | EfficientNet-B0 trained on RealWaste dataset")

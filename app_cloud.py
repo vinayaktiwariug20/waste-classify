@@ -18,7 +18,8 @@ def process_and_predict(image, model):
     img_array = np.expand_dims(img_array, axis=0)
     
     preds = model.predict(img_array)[0]
-    classes = ['Cardboard', 'Glass', 'Metal', 'Paper', 'Plastic', 'Trash', 'Fruit', 'Vegetable', 'Textile']
+    classes = 'Cardboard', 'Food Organics', 'Glass', 'Metal', 'Miscellaneous Trash',
+    'Paper', 'Plastic', 'Textile Trash', 'Vegetation'
     
     # Get top 3 predictions
     top_3_idx = np.argsort(preds)[-3:][::-1]
@@ -32,7 +33,8 @@ st.write("Upload an image to classify it using the EfficientNetB0 backbone.")
 
 # Show the 9 waste categories
 st.subheader("📋 Waste Categories")
-categories = ['Cardboard', 'Glass', 'Metal', 'Paper', 'Plastic', 'Trash', 'Fruit', 'Vegetable', 'Textile']
+categories = ['Cardboard', 'Food Organics', 'Glass', 'Metal', 'Miscellaneous Trash',
+    'Paper', 'Plastic', 'Textile Trash', 'Vegetation']
 cols = st.columns(3)
 for idx, category in enumerate(categories):
     with cols[idx % 3]:

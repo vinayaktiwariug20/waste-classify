@@ -9,7 +9,9 @@ st.set_page_config(page_title="WasteVision AI", page_icon="♻️")
 @st.cache_resource
 def load_waste_model():
     """Load the pre-trained EfficientNetB0 model."""
-    return tf.keras.models.load_model('EfficientNetB0_best.keras')
+    model = tf.keras.models.load_model('EfficientNetB0_best.keras')
+    st.write(f"Model loaded. Output shape: {model.output_shape}")
+    return model
 
 def process_and_predict(image, model):
     """Pre-process image and return top 3 predictions with confidence levels."""
@@ -80,15 +82,19 @@ if file:
 
     st.divider()
     st.write("🔍 DEBUG - Raw Model Output:")
+    st.write(f"**Uploaded file name: {file.name}**")
     st.write(f"Image array shape: {img_array.shape}")
-    st.write(f"Image array min/max: {img_array.min():.3f} / {img_array.max():.3f}")
+    st.write(f"Image array mean: {img_array.mean():.4f}")
+    st.write(f"Image array std: {img_array.std():.4f}")
     st.write(f"Number of classes: {len(preds)}")
     st.write(f"Predictions sum: {preds.sum():.4f} (should be ~1.0)")
     st.write(f"Highest confidence index: {np.argmax(preds)}")
+    st.write(f"Highest confidence value: {preds.max():.4f}")
     st.write(f"Class at that index: {classes[np.argmax(preds)]}")
     st.write("All predictions:")
     for idx, (class_name, conf) in enumerate(zip(classes, preds)):
-        st.write(f"  [{idx}] {class_name}: {conf:.4f}")
+        bar = "█" * int(conf * 50)
+        st.write(f"  [{idx}] {class_name}: {conf:.4f} {bar}")
 
 st.divider()
 st.caption("Built with TensorFlow & Streamlit | EfficientNet-B0 trained on RealWaste dataset")

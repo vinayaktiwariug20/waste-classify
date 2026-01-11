@@ -3,3 +3,4 @@ tensorflow-cpu
 pillow
 numpy
 pandas
+requests

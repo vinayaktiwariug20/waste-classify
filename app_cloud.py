@@ -64,7 +64,7 @@ st.markdown("""
 def load_model_and_metadata():
     """Load the trained model and metadata"""
     try:
-        model = tf.keras.models.load_model('EfficientNetB0_best.keras')
+        model = tf.keras.models.load_model('export_fixed/EfficientNetB0_best.keras')
         
         with open('export_fixed/metadata.json', 'r') as f:
             metadata = json.load(f)
@@ -72,7 +72,7 @@ def load_model_and_metadata():
         return model, metadata
     except Exception as e:
         st.error(f"Error loading model: {str(e)}")
-        st.info("Make sure 'EfficientNetB0_best.keras' and 'export_fixed/metadata.json' exist")
+        st.info("Make sure 'export_fixed/EfficientNetB0_best.keras' and 'export_fixed/metadata.json' exist")
         return None, None
 
 def preprocess_image(image, img_size):
@@ -201,8 +201,8 @@ def main():
                 # Display all predictions
                 st.markdown("### 📊 All Predictions")
                 for cls, conf in all_predictions:
-                    percentage = conf * 100
-                    st.progress(conf, text=f"{cls.split('-')[1]}: {percentage:.1f}%")
+                    percentage = float(conf) * 100
+                    st.progress(float(conf), text=f"{cls.split('-')[1]}: {percentage:.1f}%")
     
     with tab2:
         st.markdown("### Paste an image URL")
@@ -240,8 +240,8 @@ def main():
                         # Display all predictions
                         st.markdown("### 📊 All Predictions")
                         for cls, conf in all_predictions:
-                            percentage = conf * 100
-                            st.progress(conf, text=f"{cls.split('-')[1]}: {percentage:.1f}%")
+                            percentage = float(conf) * 100
+                            st.progress(float(conf), text=f"{cls.split('-')[1]}: {percentage:.1f}%")
             else:
                 st.warning("Please enter a valid URL")
     

@@ -18,23 +18,43 @@ def process_and_predict(image, model):
     img_array = np.expand_dims(img_array, axis=0)
     
     preds = model.predict(img_array)[0]
-    classes = 'Cardboard', 'Food Organics', 'Glass', 'Metal', 'Miscellaneous Trash',
-    'Paper', 'Plastic', 'Textile Trash', 'Vegetation'
     
-    # Get top 3 predictions
-    top_3_idx = np.argsort(preds)[-3:][::-1]
-    top_3_results = [(classes[idx], preds[idx]) for idx in top_3_idx]
+    # Determine number of classes from model output
+    num_classes = len(preds)
     
-    return top_3_results
+    # Define class labels based on common RealWaste configurations
+    if num_classes == 9:
+        classes = [
+            'Cardboard', 'Food Organics', 'Glass', 'Metal', 'Misc Trash',
+            'Paper', 'Plastic', 'Textile Trash', 'Vegetation'
+        ]
+    elif num_classes == 6:
+        # Common 6-class version
+        classes = ['Cardboard', 'Glass', 'Metal', 'Paper', 'Plastic', 'Trash']
+    else:
+        # Fallback: create generic labels
+        classes = [f'Class {i}' for i in range(num_classes)]
+        st.warning(f"⚠️ Model outputs {num_classes} classes. Please verify class labels in your training code.")
+    
+    # Get top 3 predictions (or fewer if model has < 3 classes)
+    top_n = min(3, num_classes)
+    top_n_idx = np.argsort(preds)[-top_n:][::-1]
+    top_n_results = [(classes[idx], preds[idx]) for idx in top_n_idx]
+    
+    return top_n_results
 
 # UI Elements
-st.title("♻️ Waste Classification")
-st.write("Upload an image to classify it using the EfficientNetB0 backbone.")
+st.title("♻️ WasteVision AI")
+st.write("Upload an image to classify waste using the EfficientNetB0 model trained on RealWaste dataset.")
 
 # Show the 9 waste categories
 st.subheader("📋 Waste Categories")
-categories = ['Cardboard', 'Food Organics', 'Glass', 'Metal', 'Miscellaneous Trash',
-    'Paper', 'Plastic', 'Textile Trash', 'Vegetation']
+st.info("This model classifies waste into 9 categories from the RealWaste dataset")
+
+categories = [
+    'Cardboard', 'Food Organics', 'Glass', 'Metal', 'Misc Trash',
+    'Paper', 'Plastic', 'Textile Trash', 'Vegetation'
+]
 cols = st.columns(3)
 for idx, category in enumerate(categories):
     with cols[idx % 3]:
@@ -63,4 +83,4 @@ if file:
             st.write("")  # Add spacing between predictions
 
 st.divider()
-st.caption("Built with TensorFlow & Streamlit | EfficientNet-B0")
+st.caption("Built with TensorFlow & Streamlit | EfficientNet-B0 trained on RealWaste dataset")

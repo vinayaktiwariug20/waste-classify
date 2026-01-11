@@ -19,25 +19,13 @@ def process_and_predict(image, model):
     
     preds = model.predict(img_array)[0]
     
-    # Determine number of classes from model output
-    num_classes = len(preds)
+    classes = [
+        'Cardboard', 'Food Organics', 'Glass', 'Metal', 'Vegetation',
+        'Paper', 'Plastic', 'Textile Trash', 'Miscellaneous Trash'
+    ]
     
-    # Define class labels based on common RealWaste configurations
-    if num_classes == 9:
-        classes = [
-            'Cardboard', 'Food Organics', 'Glass', 'Metal', 'Misc Trash',
-            'Paper', 'Plastic', 'Textile Trash', 'Vegetation'
-        ]
-    elif num_classes == 6:
-        # Common 6-class version
-        classes = ['Cardboard', 'Glass', 'Metal', 'Paper', 'Plastic', 'Trash']
-    else:
-        # Fallback: create generic labels
-        classes = [f'Class {i}' for i in range(num_classes)]
-        st.warning(f"⚠️ Model outputs {num_classes} classes. Please verify class labels in your training code.")
-    
-    # Get top 3 predictions (or fewer if model has < 3 classes)
-    top_n = min(3, num_classes)
+    # Get top 3 predictions
+    top_n = 3
     top_n_idx = np.argsort(preds)[-top_n:][::-1]
     top_n_results = [(classes[idx], preds[idx]) for idx in top_n_idx]
     
@@ -52,8 +40,8 @@ st.subheader("📋 Waste Categories")
 st.info("This model classifies waste into 9 categories from the RealWaste dataset")
 
 categories = [
-    'Cardboard', 'Food Organics', 'Glass', 'Metal', 'Misc Trash',
-    'Paper', 'Plastic', 'Textile Trash', 'Vegetation'
+    'Cardboard', 'Food Organics', 'Glass', 'Metal', 'Vegetation',
+    'Paper', 'Plastic', 'Textile Trash', 'Miscellaneous Trash'
 ]
 cols = st.columns(3)
 for idx, category in enumerate(categories):

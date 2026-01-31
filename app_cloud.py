@@ -91,9 +91,6 @@ def preprocess_image(image, img_size):
     if img_array.shape[-1] == 4:
         img_array = img_array[:, :, :3]
     
-    # Normalize to [0, 1]
-    img_array = img_array.astype(np.float32) / 255.0
-    
     # Add batch dimension
     img_array = np.expand_dims(img_array, axis=0)
     
